@@ -10,7 +10,10 @@ contract NFT1 is ERC721URIStorage {
 
     constructor() ERC721("NFT1", "N1") {}
 
-    function _mintToken(address _to, string calldate _uri) public returns (uint) {
+    function _minToken(
+        address _to,
+        string calldata _uri
+    ) public returns (uint) {
         _tokenIds.increment();
         uint id = _tokenIds.current();
         _safeMint(_to, id);

@@ -82,7 +82,7 @@ contract Auction {
         require(msg.value >= listing.minPrice, "require min price");
         require(
             msg.value > listing.highestBid,
-            "require value higer than the highestBid"
+            "require value higher than the highestBid"
         );
         require(listing.endTime > block.timestamp, "auction ended");
         balances[listing.highestBider] += listing.highestBid;
@@ -94,8 +94,8 @@ contract Auction {
 
     function end(uint _listingId) external listingIdExists(_listingId) {
         Listing storage listing = listings[_listingId];
-        require(listing.endTime <= block.timestamp);
-        balances[listing.owner] = listing.highestBid;
+        require(listing.endTime <= block.timestamp, "auction not ended");
+        balances[listing.owner] += listing.highestBid;
         listing.nft.safeTransferFrom(
             address(this),
             listing.highestBider,
@@ -115,7 +115,7 @@ contract Auction {
     function getListing(
         uint _listingId
     ) external view listingIdExists(_listingId) returns (Listing memory) {
-        return listings[listingId];
+        return listings[_listingId];
     }
 
     function onERC721Received(
